@@ -5,14 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Cantiques LifeCasts</title>
-<script>/*LC-OTA*/var B="0.1";/* coller ici le chargeur OTA de l'app Bible */</script>
+<script>/*LC-OTA*/(function(){var B="0.2";window.LC_BUILT=B;
+function c(a,b){a=String(a).split(".");b=String(b).split(".");for(var i=0;i<Math.max(a.length,b.length);i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d>0?1:-1}return 0}window.LC_CMP=c;
+if(window.LC_OTA_VER){window.LC_VER=window.LC_OTA_VER;return}window.LC_VER=B;
+if(location.protocol!=="file:")return;
+var L=window.localStorage,v,n;try{v=L.getItem("lc.ota.ver");n=+(L.getItem("lc.ota.try")||0)}catch(e){return}
+if(!v||c(v,B)<=0||!window.indexedDB)return;
+if(n>=3){L.removeItem("lc.ota.ver");L.removeItem("lc.ota.try");return}
+L.setItem("lc.ota.try",n+1);
+function fail(){L.removeItem("lc.ota.ver");location.reload()}
+document.write('<plaintext style="display:none">');
+var r=indexedDB.open("lc-ota",1);r.onupgradeneeded=function(){r.result.createObjectStore("f")};r.onerror=fail;
+r.onsuccess=function(){try{var g=r.result.transaction("f").objectStore("f").get("html");g.onerror=fail;
+g.onsuccess=function(){var h=g.result;if(!h||h.indexOf("/*LC-OTA*/")<0)return fail();window.LC_OTA_VER=v;document.open();document.write(h);document.close()}}catch(e){fail()}};
+})()</script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjEiIHgyPSIwIiB5Mj0iMCI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmY0ZDBkIi8+PHN0b3Agb2Zmc2V0PSIuNTUiIHN0b3AtY29sb3I9IiNmZjdhMjQiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmZmMxNzMiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIGZpbGw9IiMwYjBhMDkiLz4KPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAxOCkiPjxnIGZpbGw9InVybCgjZykiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1NiAwKSBzY2FsZSgxLjEyOSAxKSB0cmFuc2xhdGUoLTI1NiAwKSI+CjxwYXRoIGQ9Ik0yNjIgOTYgQzI1MCAxNDAgMzAwIDE3MCAzMTIgMjIyIEMzMjIgMjY4IDMwMCAzMDQgMjU2IDMxOCBDMjgyIDI5MCAyODQgMjU4IDI2MiAyMzAgQzI1OCAyNjIgMjM4IDI3OCAyMzYgMzAwIEMyMzQgMzEyIDI0MCAzMTggMjQ4IDMyMiBDMjA2IDMxMiAxOTAgMjgwIDE5NiAyNDggQzIwNCAyMDYgMjQ4IDE3NiAyNjIgOTYgWiIvPgoKPC9nPjxnIGZpbGw9IiNmNGYxZWUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1NiAzNjEpIHNjYWxlKDEuMDg3KSB0cmFuc2xhdGUoLTI1NiAtMzYxKSI+PHBhdGggZD0iTTI1NiAzNzIgQzIyOCAzNTQgMTk0IDM0OCAxNTIgMzUwIEMxNTggMzQwIDE2NCAzMzQgMTcyIDMzMiBDMjA0IDMzMCAyMzQgMzM4IDI1NiAzNTYgWiIvPjxwYXRoIGQ9Ik0yNTYgMzcyIEMyODQgMzU0IDMxOCAzNDggMzYwIDM1MCBDMzU0IDM0MCAzNDggMzM0IDM0MCAzMzIgQzMwOCAzMzAgMjc4IDMzOCAyNTYgMzU2IFoiLz48L2c+PC9nPjwvc3ZnPgo=">
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAABmJLR0QA/wD/AP+gvaeTAAAB/UlEQVRIie2VwWsTQRTG38zsbk2ykTatSjYq1Z5MU6iXrggBqUJJLwpqzx4ED4bQf0C8VfBkrXgS71VPKlbR6jk9WEFtCWKttCkS2FZKUtp5MzseItJDmx0lCxbyMYc5zPf93psZZkgsGoEwRUNNbwFagB0Vj1ghAgxGz2QOhggY6jtw5bQTIiCfTQ4dj+Z6O0MBnM90ZJMG1Kr3Lxw5FDc1XcwytZZGTTp5MdnOBCCPgTjRZU1+Wm8mYCy7/1yKAfL66LHhsydKqyLQqLVFWce6lo4Al9tHPqP1DGsBbp+KUfydu7yK9YmbYBGDNAGQbmd9cQIoAaVCefnVzx/rCCipkLbRjA46LfJnW55+3fy4Jp8tbAGXa1XhbalAe3ANyxu+4pIAcB9ufNgEAIk+cPmgxP3gfI0OvlX9h184cPm2jAtVfx8juS7yYglvzfHgeM1r+roiOaoo8Z9X1NWj9F3Fv1lCoVE+AJAGnz5jbMAdMJmxVC5/X1w0wWeEbEgFAJTS7mPdh50USjFTnJFS7hay6xkQQu5NjJ8dHLRtmzHmed6jx0/ujN9tI2S0UBgZuZRIJIQQtVrtzfT09XxBqZ07atRBXaZpphzHdd3h4dzJ/n4AeD87OzX1slgslldWELGxPRiwXb3ptFJqbn5e3/J3gH/Q//cntwB7D/ALB0DSVQHHuBoAAAAASUVORK5CYII=">
 <link rel="apple-touch-icon" href="data:image/png;base64,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">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#000000">
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter+Tight:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter+Tight:wght@400;500;600&display=swap" media="print" onload="this.media=\'all\'">
 <style>
 /* Liste type messagerie : rangée de recueils, recherche, cantiques numérotés, barre pilule en bas */
 :root{--bg:#000;--fg:#f4f1ee;--mut:#8e8a86;--chip:#1c1b1a;--chip-on:#2c2a28;--line:#2a2826;--acc:#ff6a1a;
@@ -10376,4 +10389,40 @@ L.addEventListener("touchend",e=>{if(x0==null||v!=="all")return;const t=e.change
  if(Math.abs(dx)<60||Math.abs(dx)<Math.abs(dy)*1.5||Date.now()-t0>700)return;
  const bs=[...document.querySelectorAll(".bk:not(.off)")],i=bs.findIndex(b=>b.classList.contains("on")),n=bs[i+(dx<0?1:-1)];
  if(n){n.click();n.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"})}},{passive:true});})();
-</script>
+</script><script>/*LC-OTA*/(function(){
+var APP="cantiques",L=localStorage,plat=/iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)?"ios":"android";
+document.querySelectorAll("small").forEach(function(s){if(/^Version [\d.]+ ·/.test(s.textContent))s.firstChild.textContent=s.firstChild.textContent.replace(/Version [\d.]+/,"Version "+LC_VER)});
+if(location.protocol!=="file:")return; // la version web (GitHub) est toujours à jour
+setTimeout(function(){if(typeof FBC!=="undefined"&&typeof TEXT!=="undefined")try{L.removeItem("lc.ota.try")}catch(e){}},5000);
+var css=document.createElement("style");css.textContent='#lcUp{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:rgba(0,0,0,.5);padding:16px}#lcUp>div{background:var(--bg,#faf9f5);color:var(--fg,#141413);border-radius:22px;padding:20px;width:min(92vw,440px);max-height:84vh;overflow:auto;font:15px -apple-system,BlinkMacSystemFont,sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.3)}#lcUp h4{margin:0 0 6px;font-size:20px}#lcUp .n{white-space:pre-wrap;opacity:.8;margin:10px 0}#lcUp .b{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}#lcUp button{border:0;border-radius:18px;padding:10px 16px;font:600 14px inherit;cursor:pointer;background:rgba(0,0,0,.08);color:inherit}#lcUp button.p{background:#1f2a44;color:#fff}#lcUp progress{width:100%;height:8px}';document.head.appendChild(css);
+var busy=false,last=0;
+function box(html){var d=document.getElementById("lcUp");if(!d){d=document.createElement("div");d.id="lcUp";document.body.appendChild(d)}d.innerHTML="<div>"+html+"</div>";return d}
+function close(){var d=document.getElementById("lcUp");if(d)d.remove()}
+function esc(s){return String(s||"").replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+function idbPut(h){return new Promise(function(ok,ko){var r=indexedDB.open("lc-ota",1);r.onupgradeneeded=function(){r.result.createObjectStore("f")};r.onerror=ko;
+  r.onsuccess=function(){var t=r.result.transaction("f","readwrite");t.objectStore("f").put(h,"html");t.oncomplete=ok;t.onerror=ko}})}
+var SRC="https://lifecasts-hub.github.io/Songs-Book/index.html";
+async function check(manual){
+  if(busy||!navigator.onLine)return;busy=true;last=Date.now();
+  try{
+    var ac=new AbortController(),to=setTimeout(function(){ac.abort()},20000);var r=await fetch(SRC+"?t="+Date.now(),{cache:"no-store",signal:ac.signal});clearTimeout(to);if(!r.ok)throw 0;
+    var h=await r.text(),m=h.match(/var B="([\d.]+)"/);if(!m||h.indexOf("/*LC-OTA*/")<0)throw 0;
+    var U={version:m[1],h:h},t=document.getElementById("lcUpTxt");
+    if(LC_CMP(U.version,LC_VER)<=0){if(manual)toast("L'application est à jour (v"+LC_VER+")");return}
+    window.lcUpd={U:U};if(t)t.innerHTML='🔴 <b>Mise à jour disponible : v'+esc(U.version)+'</b> — toucher pour installer';
+    if(!manual&&L.getItem("lc.ota.ver")!==U.version){try{await idbPut(U.h);L.setItem("lc.ota.ver",U.version);L.removeItem("lc.ota.try");toast("Mise à jour v"+U.version+" téléchargée — appliquée au prochain démarrage")}catch(e){}}
+    if(!manual&&L.getItem("lc.ota.skip")===U.version&&Date.now()-(+L.getItem("lc.ota.skipAt")||0)<12*36e5)return;
+    var d=box("<h4>Mise à jour disponible</h4><div>Version "+esc(U.version)+" (vous avez la "+esc(LC_VER)+")</div><div class='b'><button id='lcL'>Plus tard</button><button class='p' id='lcG'>Installer</button></div>");
+    d.querySelector("#lcL").onclick=function(){L.setItem("lc.ota.skip",U.version);L.setItem("lc.ota.skipAt",Date.now());close()};
+    d.querySelector("#lcG").onclick=function(){get(U)};
+  }catch(e){if(manual)toast("Vérification impossible pour l'instant")}finally{busy=false}
+}
+async function get(U){
+  try{await idbPut(U.h);L.setItem("lc.ota.ver",U.version);L.removeItem("lc.ota.try");
+    box("<h4>Mise à jour prête</h4><div>La version "+esc(U.version)+" est installée. L'application va redémarrer.</div><div class='b'><button class='p' id='lcR'>Redémarrer</button></div>").querySelector("#lcR").onclick=function(){location.reload()};
+  }catch(e){box("<h4>Échec de l'installation</h4><div>Réessayez plus tard.</div><div class='b'><button id='lcX'>Fermer</button></div>").querySelector("#lcX").onclick=close}
+}
+window.lcCheckUpdate=function(){var u=window.lcUpd;u?get(u.U):check(true)};
+setTimeout(check,3000);window.addEventListener("online",function(){setTimeout(check,2000)});setInterval(check,6*36e5);
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&Date.now()-last>36e5)check()});
+})()</script>
