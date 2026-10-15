@@ -10249,7 +10249,7 @@ body.rdo{overflow:hidden}
 const $=id=>document.getElementById(id),ls={g(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},s(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 for(const B of [CS,H,FSH,PY,S10])B.cantiques.forEach(c=>{c.fk=B===CS?c.n:B.court+":"+c.n;c.id=c.n;c.bk=B.court});
 const ALL={titre:"Tous les recueils",court:"",cantiques:(()=>{const seen=new Set();return [CS,H,FSH,PY,S10].flatMap(B=>B.cantiques.map(c=>({...c,id:String(c.fk)}))).filter(c=>{const k=c.incipit.normalize("NFD").toLowerCase().replace(/[^a-z]/g,"").slice(0,22);if(!c.auteur.includes("Aussi dans")||!k)return true;if(seen.has(k))return false;seen.add(k);return true})})()};
-const BOOKS={ALL,CS,H,FSH,PY,S10},fk=c=>c.fk;let R=null,fav=ls.g("fav",[]),v="all",cur=null;
+const BOOKS={ALL,CS,H,FSH,PY,S10},fk=c=>c.fk;let R=null,fav=[],v="all",cur=null;
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const norm=t=>t.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
 function show(id,a="a-in"){for(const x of ["vList","vRead","vSet","vAcc"]){$(x).hidden=x!==id;$(x).classList.remove("a-in","a-fw","a-bk")}void $(id).offsetWidth;$(id).classList.add(a);scrollTo(0,0)}
@@ -10286,7 +10286,7 @@ $("list").onclick=e=>{const l=e.target.closest("li");if(!l)return;src=l.getBound
 $("list").onkeydown=e=>{if(e.key==="Enter")$("list").onclick(e)};
 $("back").onclick=closeRead;
 addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("vRead").hidden)closeRead()});
-$("favb").onclick=()=>{{const k=fk(cur);fav=fav.includes(k)?fav.filter(x=>x!==k):[...fav,k]};ls.s("fav",fav);favIc();const f=$("favb");f.classList.remove("beat");void f.offsetWidth;f.classList.add("beat")};
+$("favb").onclick=()=>{{const k=fk(cur);fav=fav.includes(k)?fav.filter(x=>x!==k):[...fav,k]};ls.s(fkey(),fav);fbPush();favIc();const f=$("favb");f.classList.remove("beat");void f.offsetWidth;f.classList.add("beat")};
 $("q").oninput=list;
 $("tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;v=b.dataset.v;document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));pill();$("bt").textContent=v==="fav"?"Favoris":v==="acc"?"Compte":window._bt||R.titre||"Cantiques";if(v==="acc"){drawAcct();return show("vAcc")}show("vList");list()};
 $("books").onclick=e=>{const b=e.target.closest(".bk");if(!b||b.classList.contains("off"))return;document.querySelectorAll(".bk").forEach(x=>x.classList.toggle("on",x===b));R=BOOKS[b.dataset.b]||CS;cur=null;$("bt").textContent=window._bt=b.dataset.t||b.querySelector("span").textContent;$("list").classList.add("flat");window._flatKeep=1;list()};
@@ -10294,10 +10294,11 @@ $("setb").onclick=()=>show("vSet");
 $("go").onclick=()=>{const d=document.createElement("div");d.className="dlg";d.innerHTML='<div><b>Aller au cantique</b><input id="gn" inputmode="numeric" placeholder="N°"><button id="gb">Ouvrir</button></div>';document.body.append(d);$("gn").focus();
  const ok=()=>{const n=+$("gn").value;d.remove();const g=R.cantiques.find(c=>c.n===n);if(g)read(g.id)};$("gb").onclick=ok;$("gn").onkeydown=e=>{if(e.key==="Enter")ok()};d.onclick=e=>{if(e.target===d)d.remove()}};
 
-// Compte (interface reprise de The Bible App). Front seulement : la connexion Firebase sera branchée ensuite.
+// Compte (comme The Bible App) : connexion Google via Firebase, favoris synchronisés dans users/{uid}/cantiques/data.
 // lc.accounts = [{id,p,name,email,pic,by}], lc.current = id actif ("" = invité) — mêmes clés que l'app Bible.
 let ACC=ls.g("lc.accounts",[]),CUR=ls.g("lc.current","")||"";try{CUR=localStorage.getItem("lc.current")||""}catch(e){}
 if(!ACC.some(a=>a.id===CUR))CUR="";
+const fkey=()=>CUR?"fav."+CUR:"fav";fav=ls.g(fkey(),[]);
 const PV={google:"Google",apple:"Apple (iCloud)",microsoft:"Microsoft",lifecasts:"LifeCasts"};
 const escA=s=>esc(String(s)),acc=()=>ACC.find(a=>a.id===CUR),yr=()=>new Date().getFullYear();
 const ini=n=>(n.trim().split(/\s+/).map(w=>w[0]).join("").slice(0,2)||"?").toUpperCase();
@@ -10318,16 +10319,48 @@ function drawAcct(){const a=acc();
     +`<div class="srow"><span>Se déconnecter<small>Les données du compte restent sur cet appareil</small></span><button class="ab" id="outB">Déconnexion</button></div>`
     +`<div class="srow"><span class="danger">Supprimer le compte<small>Et ses favoris, sur cet appareil</small></span><button class="ab danger" id="delB">Supprimer</button></div></div>`;
   twice("delB",()=>signOut(true))}
-function useAcc(id){CUR=id;saveAcc();drawAcct()}
-function signOut(del){ACC=ACC.filter(a=>a.id!==CUR);adding=false;useAcc(ACC[0]?ACC[0].id:"");toast(del?"Compte supprimé":"Déconnecté")}
+function useAcc(id){CUR=id;saveAcc();fav=ls.g(fkey(),[]);list();drawAcct()}
+function signOut(del){const a=acc();if(del)try{localStorage.removeItem(fkey())}catch(e){}if(a&&a.fb&&FA&&a.id==="f:"+fbUid){fbUid="";FA.signOut().catch(()=>{})}ACC=ACC.filter(a=>a.id!==CUR);adding=false;useAcc(ACC[0]?ACC[0].id:"");toast(del?"Compte supprimé":"Déconnecté")}
 function askAge(){const a=acc(),d=document.createElement("div");d.className="dlg";d.innerHTML='<div><b>Quel âge avez-vous ?</b><input id="ageI" type="number" min="1" max="120" inputmode="numeric" placeholder="Âge"><button id="ageOk">Enregistrer</button></div>';document.body.append(d);
-  $("ageI").value=a.by?yr()-a.by:"";$("ageI").focus();$("ageOk").onclick=()=>{const v=+$("ageI").value;a.by=v?yr()-v:0;saveAcc();d.remove();drawAcct()};d.onclick=e=>{if(e.target===d)d.remove()}}
+  $("ageI").value=a.by?yr()-a.by:"";$("ageI").focus();$("ageOk").onclick=()=>{const v=+$("ageI").value;a.by=v?yr()-v:0;saveAcc();fbPush();d.remove();drawAcct()};d.onclick=e=>{if(e.target===d)d.remove()}}
 $("acct").onclick=e=>{const b=e.target.closest("button");if(!b)return;
-  if(b.dataset.p)return toast("Connexion bientôt disponible");
+  if(b.dataset.p)return fbIn();
   if(b.dataset.id){if(b.dataset.id!==CUR){useAcc(b.dataset.id);toast("Compte : "+acc().name)}return}
   if(b.id==="addA"){adding=!adding;drawAcct();return}
   if(b.id==="ageB")return askAge();
   if(b.id==="outB")signOut(false)};
+
+// Firebase (mêmes réglages que The Bible App). Données : users/{uid} (profil, âge), users/{uid}/cantiques/data (favoris). Hors ligne : invité.
+const FBC={apiKey:"AIzaSyBXXuPijD1GRpRQV3OfnWK_zHGJOoLLmeM",authDomain:"lifecasts-17e42.firebaseapp.com",projectId:"lifecasts-17e42",storageBucket:"lifecasts-17e42.firebasestorage.app",messagingSenderId:"625851569945",appId:"1:625851569945:web:421d879406d64d57061788"};
+let FA=null,FD=null,fbUid="",fbT=0,fbMute=true,fbAt=0,fbOff=null;
+const fbOk=()=>fbUid&&!fbMute&&CUR==="f:"+fbUid;
+function fbPush(){if(!fbOk())return;clearTimeout(fbT);fbT=setTimeout(()=>{if(!fbOk())return;const a=acc(),u=FD.doc("users/"+fbUid);fbAt=Date.now();
+  Promise.all([u.set({by:a.by||0,name:a.name||"",email:a.email||""},{merge:true}),
+    u.collection("cantiques").doc("data").set({fav,at:fbAt})]).catch(()=>toast("Synchro en attente (hors ligne ?)"))},800)}
+function fbApply(d,merge){fbMute=true;fav=[...new Set([...(d.fav||[]),...(merge?fav:[])])];ls.s(fkey(),fav);list();if(cur)favIc();fbMute=false}
+async function fbIn(){if(!FA)return toast("Connexion indisponible (hors ligne ?)");const pr=new firebase.auth.GoogleAuthProvider();pr.setCustomParameters({prompt:"select_account"});
+  try{await FA.signInWithPopup(pr)}catch(e){if(/popup-blocked|operation-not-supported/.test(e.code||""))FA.signInWithRedirect(pr);else if(!/cancelled|closed/.test(e.code||""))toast("Connexion refusée : "+(e.code||""))}}
+async function fbUser(u){if(fbOff){fbOff();fbOff=null}fbMute=true;
+  if(!u){fbUid="";if(ACC.some(a=>a.fb)){ACC=ACC.filter(a=>!a.fb);useAcc(ACC.some(a=>a.id===CUR)?CUR:ACC[0]?ACC[0].id:"")}drawAcct();return}
+  const id="f:"+u.uid;let a=ACC.find(x=>x.id===id),neu=!a;
+  if(neu){a={id,p:"google",fb:1};ACC.push(a);
+    // reprend les favoris locaux : ancien compte Google du même e-mail, sinon invité
+    const old=ACC.find(x=>x!==a&&x.p==="google"&&x.email===u.email);
+    ls.s("fav."+id,ls.g(old?"fav."+old.id:"fav",[]));if(old){a.by=old.by;ACC=ACC.filter(x=>x!==old)}}
+  Object.assign(a,{name:u.displayName||u.email||"Compte Google",email:u.email||"",pic:u.photoURL||""});
+  fbUid=u.uid;adding=false;useAcc(id);
+  try{const ud=FD.doc("users/"+u.uid),[p,c]=await Promise.all([ud.get(),ud.collection("cantiques").doc("data").get()]);
+    if(p.exists&&p.data().by)a.by=p.data().by;fbApply(c.exists?c.data():{},true);fbAt=c.exists?c.data().at||0:0;
+    fbOff=ud.collection("cantiques").doc("data").onSnapshot(s=>{const d=s.data();if(d&&!s.metadata.hasPendingWrites&&d.at>fbAt&&CUR===id){fbAt=d.at;fbApply(d,false)}});
+    saveAcc();fbPush();if(neu)toast("Connecté : "+a.name);if(!a.by)askAge()}
+  catch(e){fbMute=false;saveAcc();toast("Synchro indisponible pour l'instant")}
+  drawAcct()}
+const script=u=>new Promise((ok,ko)=>{const e=document.createElement("script");e.src=u;e.onload=ok;e.onerror=ko;document.head.append(e)});
+const FBV="https://www.gstatic.com/firebasejs/10.14.1/firebase-";
+script(FBV+"app-compat.js").then(()=>Promise.all(["auth","firestore"].map(m=>script(FBV+m+"-compat.js")))).then(()=>{
+  firebase.initializeApp(FBC);FA=firebase.auth();FD=firebase.firestore();
+  try{FD.enablePersistence({synchronizeTabs:true}).catch(()=>{})}catch(e){}
+  FA.getRedirectResult().catch(()=>{});FA.onAuthStateChanged(fbUser)}).catch(()=>{});
 function pill(){const b=document.querySelector("#tabs button.on");if(b){$("pill").style.width=b.offsetWidth+"px";$("pill").style.transform=`translateX(${b.offsetLeft}px)`}}
 addEventListener("resize",pill);requestAnimationFrame(pill);document.fonts&&document.fonts.ready.then(pill);
 const fs=ls.g("fs",18),th=ls.g("th","");$("fs").value=fs;document.documentElement.style.setProperty("--fs",fs);$("th").value=th;if(th)document.documentElement.dataset.theme=th;
