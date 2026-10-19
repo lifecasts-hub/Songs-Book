@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Cantiques LifeCasts</title>
-<script>/*LC-OTA*/(function(){var B="0.4";window.LC_BUILT=B;
+<script>/*LC-OTA*/(function(){var B="0.4.1";window.LC_BUILT=B;
 function c(a,b){a=String(a).split(".");b=String(b).split(".");for(var i=0;i<Math.max(a.length,b.length);i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d>0?1:-1}return 0}window.LC_CMP=c;
 if(window.LC_OTA_VER){window.LC_VER=window.LC_OTA_VER;return}window.LC_VER=B;
 if(location.protocol!=="file:")return;
@@ -151,7 +151,7 @@ body.rdo{overflow:hidden}
 <button class="bk" data-b="HS"><i>HS</i><span>Hosanna</span></button>
 <button class="bk" data-b="FSH" data-t="Shekina Tabernacle – Convention 2007"><i>SHT</i><span>Convention 2007</span></button>
 <button class="bk" data-b="PY" data-t="Cantiques Pene na Yo"><i>PY</i><span>Pene na Yo</span></button>
-<button class="bk" data-b="S10" data-t="Shekina Tabernacle – Convention 2010"><i>S10</i><span>Convention 2010</span></button><button class="bk" data-b="AC" data-t="Autres Cantiques"><i>AC</i><span>Autres Cantiques</span></button><button class="bk" data-b="NZW" data-t="Nyimbo za Wokovu"><i>NZW</i><span>Nyimbo za Wokovu</span></button>
+<button class="bk" data-b="S10" data-t="Shekina Tabernacle – Convention 2010"><i>S10</i><span>Convention 2010</span></button><button class="bk" data-b="AC" data-t="Autres Cantiques"><i>AC</i><span>Autres Cantiques</span></button>
 <button class="bk off"><i>JEM</i><span>J'aime l'Éternel</span></button>
 </div>
 <label class="srch"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--mut)"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" placeholder="Numéro, titre ou paroles"></label>
@@ -16916,9 +16916,9 @@ body.rdo{overflow:hidden}
 };</script>
 <script>
 const $=id=>document.getElementById(id),ls={g(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},s(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-for(const B of [CS,H,FSH,PY,S10,AC,NZW])B.cantiques.forEach(c=>{c.fk=B===CS?c.n:B.court+":"+c.n;c.id=c.n;c.bk=B.court});
-const ALL={titre:"Tous les recueils",court:"",cantiques:(()=>{const seen=new Set();return [CS,H,FSH,PY,S10,AC,NZW].flatMap(B=>B.cantiques.map(c=>({...c,id:String(c.fk)}))).filter(c=>{const k=c.incipit.normalize("NFD").toLowerCase().replace(/[^a-z]/g,"").slice(0,22);if(!c.auteur.includes("Aussi dans")||!k)return true;if(seen.has(k))return false;seen.add(k);return true})})()};
-const BOOKS={ALL,CS,H,HS:H,FSH,PY,S10,AC,NZW},fk=c=>c.fk;let R=null,fav=[],v="all",cur=null;
+for(const B of [CS,H,FSH,PY,S10,AC])B.cantiques.forEach(c=>{c.fk=B===CS?c.n:B.court+":"+c.n;c.id=c.n;c.bk=B.court});
+const ALL={titre:"Tous les recueils",court:"",cantiques:(()=>{const seen=new Set();return [CS,H,FSH,PY,S10,AC].flatMap(B=>B.cantiques.map(c=>({...c,id:String(c.fk)}))).filter(c=>{const k=c.incipit.normalize("NFD").toLowerCase().replace(/[^a-z]/g,"").slice(0,22);if(!c.auteur.includes("Aussi dans")||!k)return true;if(seen.has(k))return false;seen.add(k);return true})})()};
+const BOOKS={ALL,CS,H,HS:H,FSH,PY,S10,AC},fk=c=>c.fk;let R=null,fav=[],v="all",cur=null;
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const norm=t=>t.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
 function show(id,a="a-in"){for(const x of ["vList","vRead","vSet","vAcc"]){$(x).hidden=x!==id;$(x).classList.remove("a-in","a-fw","a-bk")}void $(id).offsetWidth;$(id).classList.add(a);scrollTo(0,0)}
