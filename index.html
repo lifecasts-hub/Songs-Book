@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Cantiques LifeCasts</title>
-<script>/*LC-OTA*/(function(){var B="0.4.4";window.LC_BUILT=B;
+<script>/*LC-OTA*/(function(){var B="0.4.5";window.LC_BUILT=B;
 function c(a,b){a=String(a).split(".");b=String(b).split(".");for(var i=0;i<Math.max(a.length,b.length);i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d>0?1:-1}return 0}window.LC_CMP=c;
 if(window.LC_OTA_VER){window.LC_VER=window.LC_OTA_VER;return}window.LC_VER=B;
 if(location.protocol!=="file:")return;
@@ -119,6 +119,7 @@ button:focus-visible,li:focus-visible{outline:2px solid var(--acc);outline-offse
 #list li{animation:rise .38s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(min(var(--i,0),14) * 28ms);transition:background .2s,transform .15s}
 #list li:active{transform:scale(.98);background:var(--chip)}
 #list.flat li,#list.flat .empty{animation:none}
+#list li:nth-child(n+16){animation:none;content-visibility:auto;contain-intrinsic-size:auto 66px}
 #list li.on .n{animation:glow .9s ease-out .2s}
 button{transition:transform .15s cubic-bezier(.2,.8,.2,1),background .25s,color .25s,opacity .2s,border-color .25s}
 button:active{transform:scale(.93)}
@@ -139,7 +140,7 @@ body.rdo{overflow:hidden}
 .tabs{position:relative}
 .tabs button{position:relative;z-index:1}
 .tabs button.on{background:none}
-#list{transition:opacity .3s ease}#list.fd{opacity:0;transition:opacity .15s ease}
+#list{transition:opacity .35s ease}#list.fd{opacity:0;transition:opacity .15s ease}
 #pill{position:absolute;will-change:transform,width;top:4px;bottom:4px;left:0;border-radius:36px;background:var(--chip-on);transition:transform .35s cubic-bezier(.3,.7,.3,1),width .35s cubic-bezier(.3,.7,.3,1)}
 .lt{margin:4px 0 8px;gap:12px;align-items:flex-start}.lt h1{line-height:1.2;min-width:0;overflow-wrap:anywhere}.lt .ic{flex:none}
 .n{min-width:52px;max-width:52px;min-height:52px;max-height:52px;aspect-ratio:1;box-sizing:border-box;flex-shrink:0}
@@ -16958,7 +16959,7 @@ $("back").onclick=closeRead;
 addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("vRead").hidden)closeRead()});
 $("favb").onclick=()=>{{const k=fk(cur);fav=fav.includes(k)?fav.filter(x=>x!==k):[...fav,k]};ls.s(fkey(),fav);fbPush();favIc();const f=$("favb");f.classList.remove("beat");void f.offsetWidth;f.classList.add("beat")};
 $("q").oninput=list;
-$("tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;v=b.dataset.v;document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));pill();$("bt").textContent=v==="fav"?"Favoris":v==="acc"?"Compte":window._bt||R.titre||"Cantiques";const go=()=>{if(v==="acc"){drawAcct();return show("vAcc")}const L=$("list");show("vList");list();requestAnimationFrame(()=>requestAnimationFrame(()=>L.classList.remove("fd")))};$("list").classList.add("fd");clearTimeout(window._tg);window._tg=setTimeout(go,360)};
+$("tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;v=b.dataset.v;document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));pill();$("bt").textContent=v==="fav"?"Favoris":v==="acc"?"Compte":window._bt||R.titre||"Cantiques";const go=()=>{if(v==="acc"){drawAcct();return show("vAcc")}const L=$("list");show("vList");list();requestAnimationFrame(()=>requestAnimationFrame(()=>L.classList.remove("fd")))};$("list").classList.add("fd");clearTimeout(window._tg);window._tg=setTimeout(go,160)};
 $("books").onclick=e=>{const b=e.target.closest(".bk");if(!b||b.classList.contains("off"))return;document.querySelectorAll(".bk").forEach(x=>x.classList.toggle("on",x===b));R=BOOKS[b.dataset.b]||CS;cur=null;$("bt").textContent=window._bt=b.dataset.t||b.querySelector("span").textContent;$("list").classList.add("flat");window._flatKeep=1;list()};
 $("setb").onclick=()=>show("vSet");
 $("go").onclick=()=>{const d=document.createElement("div");d.className="dlg";d.innerHTML='<div><b>Aller au cantique</b><input id="gn" inputmode="numeric" placeholder="N°"><button id="gb">Ouvrir</button></div>';document.body.append(d);$("gn").focus();
