@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Cantiques LifeCasts</title>
-<script>/*LC-OTA*/(function(){var B="0.4.8";window.LC_BUILT=B;
+<script>/*LC-OTA*/(function(){var B="0.4.9";window.LC_BUILT=B;
 function c(a,b){a=String(a).split(".");b=String(b).split(".");for(var i=0;i<Math.max(a.length,b.length);i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d>0?1:-1}return 0}window.LC_CMP=c;
 if(window.LC_OTA_VER){window.LC_VER=window.LC_OTA_VER;return}window.LC_VER=B;
 if(location.protocol!=="file:")return;
@@ -164,9 +164,9 @@ body.rdo{overflow:hidden}
 <main class="view rd" id="vRead" hidden><header><button class="ic" id="back" aria-label="Retour"><svg viewBox="0 0 24 24" width="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button><h2 id="rt"></h2><button class="ic" id="favb" aria-label="Favori"></button></header><div id="rb"></div></main>
 <main class="view" id="vAcc" hidden><header><h1>Compte</h1></header><section id="acct"></section></main>
 <main class="view set" id="vSet" hidden><header><h1>Réglages</h1></header>
-<label for="fs">Taille du texte<input type="range" id="fs" min="14" max="28"></label>
+<div id="setBody"><div class="card lcsetcard"><label for="fs">Taille du texte<input type="range" id="fs" min="14" max="28"></label>
 <label for="th">Thème<select id="th"><option value="">Système</option><option value="dark">Sombre</option><option value="light">Clair</option></select></label>
-<p class="note">Cantiques LifeCasts · version <span id="ver"></span></p></main>
+</div><p class="note">Cantiques LifeCasts · version <span id="ver"></span></p></div></main>
 <div><nav class="bar">
 <div class="tabs" id="tabs"><span id="pill" aria-hidden="true"></span>
 <button class="on" data-v="all"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 3v11.5A3.5 3.5 0 1 0 11 17V8h6V3z"/></svg>Cantiques</button>
@@ -175,6 +175,27 @@ body.rdo{overflow:hidden}
 </div>
 <button class="round" id="setb" aria-label="Réglages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>
 </nav></div>
+<style id="lcsub-css">/* LifeCasts : sous-page Réglages commune (Compte › Réglages) */
+.lcsub{position:fixed;inset:0;z-index:2147483000;overflow:auto;-webkit-overflow-scrolling:touch;padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 40px);transform:translateX(100%);transition:transform .3s ease;box-sizing:border-box}
+.lcsub.on{transform:none}.lcsub>*{max-width:640px;margin-left:auto!important;margin-right:auto!important}
+.lcbk{display:grid!important;place-items:center;width:42px;height:42px;border-radius:50%;border:0;background:rgba(128,128,128,.2);color:inherit;margin:0 0 16px!important;padding:0;cursor:pointer}
+.lcbk svg,.lcchev{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.lcchev{margin-left:auto;opacity:.4;width:16px;height:16px;flex:none}
+.lchero{padding:18px 16px!important;display:block!important;margin-bottom:22px!important}.lchero h2{margin:12px 0 4px;font-size:22px;font-weight:700}.lchero p{margin:0;opacity:.6;font-size:14px;line-height:1.4}
+.lcsq{width:32px!important;height:32px;border-radius:8px;background:#8e8e93;display:inline-grid!important;place-items:center;flex:0 0 32px!important;padding:0!important}.lcsq svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.lcsq.big{width:56px!important;height:56px;border-radius:14px;flex-basis:56px!important}.lcsq.big svg{width:32px;height:32px}
+.lcsetb{width:100%;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;display:flex!important;align-items:center;gap:12px}
+.lcsetc{margin-top:22px!important}.lcsetcard{padding:2px 16px!important}.lcsetcard label:last-child{border-bottom:0!important}</style>
+<script>/* LifeCasts : structure commune — ligne « Réglages › » du Compte et sous-page Réglages (style iOS) */
+var LCG='<svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>';
+function lcSetCard(){return '<div class="card lcsetc"><button class="srow lcsetb" type="button"><span class="lcsq">'+LCG+'</span><span>Réglages</span><svg class="lcchev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></button></div>'}
+function lcBg(el){for(var e=el;e;e=e.parentElement){var b=getComputedStyle(e).backgroundColor;if(b&&!/rgba\(0, 0, 0, 0\)|transparent/.test(b))return b}return getComputedStyle(document.documentElement).backgroundColor||"#fff"}
+function lcSub(node,desc,host,cls,onClose){host=host||node.parentNode;var mark=document.createComment("lcset"),wasH=node.hidden;node.parentNode.insertBefore(mark,node);
+ var W=document.createElement("div");W.className="lcsub"+(cls?" "+cls:"");W.style.background=lcBg(host);W.style.color=getComputedStyle(host).color;
+ W.innerHTML='<button class="lcbk" type="button" aria-label="Retour"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><div class="card lchero"><span class="lcsq big">'+LCG+'</span><h2>Réglages</h2><p>'+desc+'</p></div>';
+ host.appendChild(W);node.hidden=false;W.appendChild(node);W.scrollTop=0;requestAnimationFrame(function(){requestAnimationFrame(function(){W.classList.add("on")})});
+ W.querySelector(".lcbk").onclick=function(){W.classList.remove("on");setTimeout(function(){node.hidden=wasH;mark.parentNode?mark.replaceWith(node):0;W.remove();onClose&&onClose()},300)};return W}
+</script>
 <script id="cs-data">const CS={
  "id": "crois-seulement",
  "titre": "Crois seulement",
@@ -16961,7 +16982,8 @@ $("favb").onclick=()=>{{const k=fk(cur);fav=fav.includes(k)?fav.filter(x=>x!==k)
 $("q").oninput=list;
 $("tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;v=b.dataset.v;document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));pill();$("bt").textContent=v==="fav"?"Favoris":v==="acc"?"Compte":window._bt||R.titre||"Cantiques";const go=()=>{if(v==="acc"){drawAcct();return show("vAcc")}const L=$("list");show("vList");list();requestAnimationFrame(()=>requestAnimationFrame(()=>L.classList.remove("fd")))};$("list").classList.add("fd");clearTimeout(window._tg);window._tg=setTimeout(go,160)};
 $("books").onclick=e=>{const b=e.target.closest(".bk");if(!b||b.classList.contains("off"))return;document.querySelectorAll(".bk").forEach(x=>x.classList.toggle("on",x===b));R=BOOKS[b.dataset.b]||CS;cur=null;$("bt").textContent=window._bt=b.dataset.t||b.querySelector("span").textContent;$("list").classList.add("flat");window._flatKeep=1;list()};
-$("setb").onclick=()=>show("vSet");
+function lcSetBind(){const b=document.querySelector("#acct .lcsetb");if(b)b.onclick=()=>lcSub($("setBody"),"Taille du texte et thème de Cantiques sur cet appareil.",$("vAcc"),"set")}
+$("setb").onclick=()=>{document.querySelector('#tabs [data-v="acc"]').click();setTimeout(()=>{const b=document.querySelector("#acct .lcsetb");if(b)b.click()},300)};
 $("go").onclick=()=>{const d=document.createElement("div");d.className="dlg";d.innerHTML='<div><b>Aller au cantique</b><input id="gn" inputmode="numeric" placeholder="N°"><button id="gb">Ouvrir</button></div>';document.body.append(d);$("gn").focus();
  const ok=()=>{const n=+$("gn").value;d.remove();const g=R.cantiques.find(c=>c.n===n);if(g)read(g.id)};$("gb").onclick=ok;$("gn").onkeydown=e=>{if(e.key==="Enter")ok()};d.onclick=e=>{if(e.target===d)d.remove()}};
 
@@ -16981,7 +17003,7 @@ function twice(id,fn){let t=0;const b=$(id),l=b.textContent;b.onclick=()=>{if(t)
 const goBtn=c=>`<button class="lcgo${c?" "+c:""}" data-p="google"><i class="lcm" aria-hidden="true"></i>Se connecter à LifeCasts</button>`;
 let adding=false;
 function drawAcct(){const a=acc();
-  if(!a){$("acct").innerHTML=`<div class="lcin"><i class="lcm" aria-hidden="true"></i><b>Votre compte LifeCasts</b><p>Retrouvez vos favoris et vos réglages, sur le site et dans toutes les applications LifeCasts. (Aucun mot de passe à créer)</p>${goBtn()}</div>`;return}
+  if(!a){$("acct").innerHTML=`<div class="lcin"><i class="lcm" aria-hidden="true"></i><b>Votre compte LifeCasts</b><p>Retrouvez vos favoris et vos réglages, sur le site et dans toutes les applications LifeCasts. (Aucun mot de passe à créer)</p>${goBtn()}</div>`+lcSetCard();lcSetBind();return}
   const age=a.by?yr()-a.by:0;
   $("acct").innerHTML=`<div class="card" style="margin-top:18px"><div class="em"><i class="av o">${SV('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.2 18.5c1.2-2.3 3.3-3.5 5.8-3.5s4.6 1.2 5.8 3.5"/>')}</i><span>${esc(a.email||PV[a.p])}</span></div>`
     +ACC.map(x=>`<button class="pb" data-id="${escA(x.id)}" role="menuitemradio" aria-checked="${x.id===CUR}">${av(x)}<span>${esc(x.name)}<small>${PV[x.p]}</small></span>${x.id===CUR?SV('<path d="M5 12.5l4.5 4.5L19 7.5"/>'):""}</button>`).join("")
@@ -16989,6 +17011,7 @@ function drawAcct(){const a=acc();
     +`<h3>Ce compte</h3><div class="card"><div class="srow"><span>Âge<small>${age?age+" an"+(age>1?"s":""):"Non renseigné"}</small></span><button class="ab" id="ageB">Modifier sur LifeCasts</button></div>`
     +`<div class="srow"><span>Se déconnecter<small>Les données du compte restent sur cet appareil</small></span><button class="ab" id="outB">Déconnexion</button></div>`
     +`<div class="srow"><span class="danger">Supprimer le compte<small>Et ses favoris, sur cet appareil</small></span><button class="ab danger" id="delB">Supprimer</button></div></div>`;
+  $("acct").insertAdjacentHTML("beforeend",lcSetCard());lcSetBind();
   twice("delB",()=>signOut(true))}
 function useAcc(id){CUR=id;saveAcc();fav=ls.g(fkey(),[]);list();drawAcct()}
 function signOut(del){const a=acc();if(del)try{localStorage.removeItem(fkey())}catch(e){}if(a&&a.fb&&FA&&a.id==="f:"+fbUid){fbUid="";FA.signOut().catch(()=>{})}ACC=ACC.filter(a=>a.id!==CUR);adding=false;useAcc(ACC[0]?ACC[0].id:"");toast(del?"Compte supprimé":"Déconnecté")}
